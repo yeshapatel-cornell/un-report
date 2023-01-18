@@ -90,4 +90,36 @@ co2_emissions%>%
 
 write_csv (joint_co2_pop, file="data/joint_co2_pop.csv")
 
+joint_co2_and_pop <- read_csv ("data/joint_co2_pop.csv")
+
+# create a seperate histogram for both lifeExp and gdpPercap to explore those variables
+
+ggplot (joint_co2_and_pop) +
+  aes (x = lifeExp) + 
+  geom_histogram () +
+  labs (x= "Life Expectancy")
+ 
+
+ggplot (joint_co2_and_pop) +
+  aes (x = gdpPercap) + 
+  geom_histogram () +
+  labs (x= "GDP per Capita")
+
+joint_co2_and_pop %>%
+  ggplot(aes(x= gdpPercap))+
+  labs (x= "GDP per Capita")+
+  geom_histogram()
+
+gdp_co2_plot <- joint_co2_and_pop %>%
+  ggplot(aes (x=gdpPercap,y=per_capita_emissions))+
+  geom_point()+
+  geom_smooth(method="lm", se = FALSE) +
+  labs (x= "GDP per Capita", y ="CO2 emissions per Capita (metric tons)", title= "Comparing Per Capita CO2 emissions and GDP")+
+  theme_classic()+
+  ggpubr::stat_regline_equation(aes(label = after_stat(rr.label)))
+
+
+ggsave(gdp_co2_plot, filename = "figures/gdg_co2_plot.png", height = 4, width = 6, units = "in", dpi = 300)
+
+install.packages("ggpubr")
 
