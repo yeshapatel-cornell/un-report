@@ -70,7 +70,7 @@ gapminder_data_2007 <- read_csv("data/gapminder_data.csv") %>%
 
 # innerjoin- discards countries not common between the tables
 
-inner_join(co2_emissions, gapminder_data_2007, by = "country")
+joint_co2_pop <- inner_join(co2_emissions, gapminder_data_2007, by = "country")
 
 anti_join(co2_emissions, gapminder_data_2007, by = "country")
 
@@ -78,3 +78,16 @@ anti_join(gapminder_data_2007, co2_emissions, by ="country")
 
 full_join(co2_emissions, gapminder_data_2007)%>%
   view
+
+
+co2_emissions%>%
+  left_join(gapminder_data_2007)
+
+co2_emissions%>%
+  right_join(gapminder_data_2007)
+
+# writing a csv
+
+write_csv (joint_co2_pop, file="data/joint_co2_pop.csv")
+
+
