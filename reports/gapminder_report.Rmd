@@ -2,27 +2,28 @@
 title: "A UN report on GDP life Expectancy and CO2"
 author: "Yesha"
 date: "2023-01-18"
-output: 
- md_document:
-   variant: markdown_github
+output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r load-packages}
+```{r load-packages, include=FALSE}
 library (tidyverse)
+library (knitr)
 
 ```
 This report was prepared to the attention of the United Nations. It analyzes the relationship between a country's GDP, its life expectancy and CO2 emissions. Our goal is to determine to what degree a country’s economic strength or weakness may be related to its public health status and impact on climate pollution. We hypothesize that both life expectancy and CO2 emissions increase with a country's GDP.
 
-```{r read-data}
+```{r read-data, include=FALSE}
 gapminder_1997 <- read_csv("data/gapminder_1997.csv")
 ```
 
 
-```{r gdp-lifeExp-1997-plot}
+```{r gdp-lifeExp-1997-plot, echo=FALSE, fig.width=3, fig.height=2, fig.align='center'}
 # make plot of GDP vs LifeEXp
 
 ggplot (data = gapminder_1997) +
@@ -32,4 +33,30 @@ geom_point()+
   scale_color_brewer(palette = "Set1")
 
 ```
+```{r basic-country-stats, echo=FALSE}
+# Number of countries in data
+nCountries <- 
+  gapminder_1997 %>%
+  select (country) %>%
+  n_distinct()
+
+# minimum GDP
+minGDP <- gapminder_1997 %>%
+  summarize (round(min(gdpPercap)))%>%
+pull()
+
+maxGDP <- gapminder_1997 %>%
+  summarize (round(max(gdpPercap)))%>%
+  pull()
+
+```
+The number of countries in the data is `r nCountries`. The minimum GDP is `r minGDP`. The maximum GDP is `r maxGDP`.
+
+```{r table}
+gapminder_1997 %>%
+  filter (continent == "Oceania") %>%
+  kable()
+
+```
+
 
