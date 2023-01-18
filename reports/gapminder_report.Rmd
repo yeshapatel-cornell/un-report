@@ -2,7 +2,9 @@
 title: "A UN report on GDP life Expectancy and CO2"
 author: "Yesha"
 date: "2023-01-18"
-output: html_document
+output: 
+ md_document:
+   variant: markdown_github
 ---
 
 ```{r setup, include=FALSE}
